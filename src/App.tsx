@@ -16,7 +16,12 @@ import dataProvider from "@pankod/refine-simple-rest";
 import routerProvider from "@pankod/refine-react-router-v6";
 import { Title, Sider, Layout, Header } from "components/layout";
 import { ColorModeContextProvider } from "contexts";
-import { ProductsList, ProductsCreate, ProductsEdit } from "pages/products";
+import {
+  ProductsList,
+  ProductsCreate,
+  ProductsEdit,
+  ProductsShow,
+} from "pages/products";
 import { authProvider } from "./authProvider";
 
 function App() {
@@ -43,6 +48,7 @@ function App() {
               list: ProductsList,
               create: ProductsCreate,
               edit: ProductsEdit,
+              show: ProductsShow,
               icon: <CategoryIcon />,
             },
           ]}

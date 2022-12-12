@@ -1,23 +1,29 @@
-import { HttpError } from "@pankod/refine-core";
+import { HttpError, useShow } from "@pankod/refine-core";
 import {
   Edit,
   Box,
   TextField,
   Autocomplete,
   useAutocomplete,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
 } from "@pankod/refine-mui";
-import { Controller, useForm } from "@pankod/refine-react-hook-form";
+import { useForm } from "@pankod/refine-react-hook-form";
 
 import { IProduct, ICategory } from "interfaces";
 
 export const ProductsEdit: React.FC = () => {
   const {
     saveButtonProps,
-    refineCore: { queryResult },
     register,
-    control,
     formState: { errors },
   } = useForm<IProduct, HttpError, IProduct & { category: ICategory }>();
+
+  const { queryResult } = useShow<IProduct>();
+  const { data, isLoading } = queryResult;
+  const product = data?.data;
 
   const { autocompleteProps } = useAutocomplete<ICategory>({
     resource: "categories",
@@ -26,97 +32,130 @@ export const ProductsEdit: React.FC = () => {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <Box
-        component="form"
-        sx={{ display: "flex", flexDirection: "column" }}
-        autoComplete="off"
-      >
-        <TextField
-          {...register("title", {
-            required: "This field is required",
-          })}
-          error={!!errors.title}
-          helperText={errors.title?.message}
-          margin="normal"
-          fullWidth
-          label="Title"
-          name="title"
-          autoFocus
-        />
-        {/* <Controller
-          control={control}
-          name="statuses"
-          rules={{ required: "This field is required" }}
-          defaultValue={null as any}
-          render={({ field }) => (
-            <Autocomplete
-              options={["published", "draft", "rejected"]}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value);
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Status"
-                  margin="normal"
-                  variant="outlined"
-                  error={!!errors.statuses}
-                  helperText={errors.statuses?.message}
-                  required
-                />
-              )}
-            />
-          )}
-        /> */}
-        <Controller
-          control={control}
-          name="category"
-          rules={{ required: "This field is required" }}
-          defaultValue={null as any}
-          render={({ field }) => (
-            <Autocomplete
-              {...autocompleteProps}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value);
-              }}
-              getOptionLabel={(item) => {
-                return (
-                  autocompleteProps?.options?.find(
-                    (p) => p?.id?.toString() === item?.id?.toString()
-                  )?.title ?? ""
-                );
-              }}
-              isOptionEqualToValue={(option, value) =>
-                value === undefined || option.id.toString() === value.toString()
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Category"
-                  margin="normal"
-                  variant="outlined"
-                  error={!!errors.category}
-                  helperText={errors.category?.message}
-                  required
-                />
-              )}
-            />
-          )}
-        />
-        <TextField
-          {...register("description", {
-            required: "This field is required",
-          })}
-          error={!!errors.description}
-          helperText={errors.description?.message}
-          margin="normal"
-          label="Content"
-          multiline
-          rows={4}
-        />
-      </Box>
+      <Grid container>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Артикул:{" "}
+              </Typography>
+              <TextField
+                {...register("id")}
+                sx={{ fontSize: { xs: "18px" }, fontWeight: "300" }}
+              />
+            </Stack>
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Наименование:{" "}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
+                {product?.title}
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Создан:{" "}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
+                {product?.createdAt}
+              </Typography>
+            </Stack>
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Категория:{" "}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
+                {product?.id}
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            {" "}
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Статус:{" "}
+              </Typography>
+              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
+                {" "}
+                {product?.id}
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>{" "}
+        <Grid item xs={12} lg={12}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Изображения:
+              </Typography>
+              <Typography
+                sx={{ fontSize: { xs: "18px" } }}
+                marginLeft={1}
+                textAlign="justify"
+              >
+                Images
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <Stack alignItems="flex-start" direction="row">
+              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
+                Описание:{" "}
+              </Typography>
+              <Typography
+                sx={{ fontSize: { xs: "18px" } }}
+                marginLeft={1}
+                textAlign="justify"
+              >
+                {product?.description}
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>
+      </Grid>
     </Edit>
   );
 };
