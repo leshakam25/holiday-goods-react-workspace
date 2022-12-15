@@ -10,7 +10,7 @@ import {
   DeleteButton,
 } from "@pankod/refine-mui";
 
-import { IProduct, ICategory, IStatus } from "interfaces";
+import { IProduct, ICategory } from "interfaces";
 
 export const ProductsList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IProduct>();
@@ -27,7 +27,7 @@ export const ProductsList: React.FC = () => {
   const columns = React.useMemo<GridColumns<IProduct>>(
     () => [
       {
-        field: "id",
+        field: "article",
         headerName: "Артикул",
         type: "number",
         minWidth: 100,
@@ -103,7 +103,7 @@ export const ProductsList: React.FC = () => {
   );
 
   return (
-    <List resource="products">
+    <List title="Список товаров" resource="products">
       <DataGrid
         {...dataGridProps}
         onRowClick={({ id }) => {

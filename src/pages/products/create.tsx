@@ -1,12 +1,14 @@
 import { HttpError } from "@pankod/refine-core";
 import {
   Create,
-  Box,
   TextField,
-  Autocomplete,
   useAutocomplete,
+  Grid,
+  Paper,
+  Box,
 } from "@pankod/refine-mui";
-import { Controller, useForm } from "@pankod/refine-react-hook-form";
+import { useForm } from "@pankod/refine-react-hook-form";
+import { created } from "../../components/created";
 
 import { IProduct, ICategory } from "interfaces";
 
@@ -24,90 +26,102 @@ export const ProductsCreate: React.FC = () => {
 
   return (
     <Create saveButtonProps={saveButtonProps}>
-      <Box
-        component="form"
-        sx={{ display: "flex", flexDirection: "column" }}
-        autoComplete="off"
-      >
-        <TextField
-          {...register("title")}
-          error={!!errors.title}
-          helperText={errors.title?.message}
-          margin="normal"
-          fullWidth
-          label="Title"
-          name="title"
-          autoFocus
-        />
-        {/* <Controller
-          control={control}
-          name="statuses"
-          // rules={{ required: "This field is required" }}
-          render={({ field }) => (
-            <Autocomplete
-              options={["new", "sale", "discount", "sale"]}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value);
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Status"
-                  margin="normal"
-                  variant="outlined"
-                  error={!!errors.statuses}
-                  helperText={errors.statuses?.message}
-                />
-              )}
+      <Grid container>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            {" "}
+            <TextField
+              fullWidth
+              label=" Артикул"
+              {...register("article")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
             />
-          )}
-        /> */}
-        <Controller
-          control={control}
-          name="category"
-          // rules={{ required: "This field is required" }}
-          render={({ field }) => (
-            <Autocomplete
-              {...autocompleteProps}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value);
-              }}
-              getOptionLabel={(item) => {
-                return (
-                  autocompleteProps?.options?.find(
-                    (p) => p?.id?.toString() === item?.id?.toString()
-                  )?.title ?? ""
-                );
-              }}
-              isOptionEqualToValue={(option, value) =>
-                value === undefined || option.id.toString() === value.toString()
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Category"
-                  margin="normal"
-                  variant="outlined"
-                  error={!!errors.category}
-                  helperText={errors.category?.message}
-                  required
-                />
-              )}
+            <TextField
+              fullWidth
+              label="Наименование"
+              {...register("title")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
             />
-          )}
-        />
-        <TextField
-          {...register("description")}
-          error={!!errors.description}
-          helperText={errors.description?.message}
-          margin="normal"
-          label="Content"
-          multiline
-          rows={4}
-        />
-      </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <TextField
+              fullWidth
+              label="Статус"
+              {...register("tags")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />{" "}
+            <TextField
+              fullWidth
+              label="Категория"
+              {...register("category")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            {" "}
+            <TextField
+              disabled
+              fullWidth
+              value={created()}
+              label="Создан"
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+            <Box display="none">
+              <input value={created()} {...register("createdAt")} />{" "}
+            </Box>
+            <TextField
+              fullWidth
+              label="Изображения"
+              {...register("title")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+          </Paper>
+        </Grid>{" "}
+        <Grid item xs={12} lg={12}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <TextField
+              multiline
+              rows={4}
+              fullWidth
+              label="Описание"
+              {...register("description")}
+              sx={{ my: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
     </Create>
   );
 };

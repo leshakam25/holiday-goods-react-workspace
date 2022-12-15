@@ -2,14 +2,15 @@ export interface ICategory {
   id: number;
   title: string;
 }
-export interface IStatus {
+export interface ITags {
   id: number;
   title: string;
 }
 export interface IProduct {
   id: number;
+  article: number;
   title: string;
-  statuses: IStatus;
+  tags: ITags;
   createdAt: string;
   category: ICategory;
   description:string;

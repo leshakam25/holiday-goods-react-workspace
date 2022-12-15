@@ -1,14 +1,10 @@
 import { HttpError, useShow } from "@pankod/refine-core";
 import {
   Edit,
-  Box,
   TextField,
-  Autocomplete,
   useAutocomplete,
   Grid,
   Paper,
-  Stack,
-  Typography,
 } from "@pankod/refine-mui";
 import { useForm } from "@pankod/refine-react-hook-form";
 
@@ -27,11 +23,10 @@ export const ProductsEdit: React.FC = () => {
 
   const { autocompleteProps } = useAutocomplete<ICategory>({
     resource: "categories",
-    defaultValue: queryResult?.data?.data.category.id,
   });
 
   return (
-    <Edit saveButtonProps={saveButtonProps}>
+    <Edit isLoading={isLoading} saveButtonProps={saveButtonProps}>
       <Grid container>
         <Grid item xs={12} lg={4}>
           <Paper
@@ -42,74 +37,22 @@ export const ProductsEdit: React.FC = () => {
               paddingX: { xs: 4, md: 2 },
             }}
           >
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Артикул:{" "}
-              </Typography>
-              <TextField
-                {...register("id")}
-                sx={{ fontSize: { xs: "18px" }, fontWeight: "300" }}
-              />
-            </Stack>
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Наименование:{" "}
-              </Typography>
-              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
-                {product?.title}
-              </Typography>
-            </Stack>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} lg={4}>
-          <Paper
-            sx={{
-              boxShadow: "none",
-              border: "none",
-              p: 2,
-              paddingX: { xs: 4, md: 2 },
-            }}
-          >
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Создан:{" "}
-              </Typography>
-              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
-                {product?.createdAt}
-              </Typography>
-            </Stack>
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Категория:{" "}
-              </Typography>
-              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
-                {product?.id}
-              </Typography>
-            </Stack>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} lg={4}>
-          <Paper
-            sx={{
-              boxShadow: "none",
-              border: "none",
-              p: 2,
-              paddingX: { xs: 4, md: 2 },
-            }}
-          >
             {" "}
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Статус:{" "}
-              </Typography>
-              <Typography sx={{ fontSize: { xs: "18px" } }} marginLeft={1}>
-                {" "}
-                {product?.id}
-              </Typography>
-            </Stack>
+            <TextField
+              fullWidth
+              label=" Артикул"
+              {...register("id")}
+              sx={{ my: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+            <TextField
+              fullWidth
+              label="Наименование"
+              {...register("title")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
           </Paper>
-        </Grid>{" "}
-        <Grid item xs={12} lg={12}>
+        </Grid>
+        <Grid item xs={12} lg={4}>
           <Paper
             sx={{
               boxShadow: "none",
@@ -118,18 +61,42 @@ export const ProductsEdit: React.FC = () => {
               paddingX: { xs: 4, md: 2 },
             }}
           >
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Изображения:
-              </Typography>
-              <Typography
-                sx={{ fontSize: { xs: "18px" } }}
-                marginLeft={1}
-                textAlign="justify"
-              >
-                Images
-              </Typography>
-            </Stack>
+            <TextField
+              disabled
+              fullWidth
+              label="Создан"
+              value={product?.createdAt}
+              sx={{ my: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+            <TextField
+              fullWidth
+              label="Категория"
+              {...register("category")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
+            <TextField
+              fullWidth
+              label="Статус"
+              {...register("tags")}
+              sx={{ my: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />{" "}
+            <TextField
+              fullWidth
+              label="Изображения"
+              {...register("title")}
+              sx={{ mt: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
           </Paper>
         </Grid>
         <Grid item xs={12} lg={12}>
@@ -141,18 +108,14 @@ export const ProductsEdit: React.FC = () => {
               paddingX: { xs: 4, md: 2 },
             }}
           >
-            <Stack alignItems="flex-start" direction="row">
-              <Typography sx={{ fontSize: { xs: "18px" }, fontWeight: "700" }}>
-                Описание:{" "}
-              </Typography>
-              <Typography
-                sx={{ fontSize: { xs: "18px" } }}
-                marginLeft={1}
-                textAlign="justify"
-              >
-                {product?.description}
-              </Typography>
-            </Stack>
+            <TextField
+              multiline
+              rows={4}
+              fullWidth
+              label="Описание"
+              {...register("description")}
+              sx={{ my: 1, fontSize: { xs: "18px" }, fontWeight: "300" }}
+            />
           </Paper>
         </Grid>
       </Grid>
